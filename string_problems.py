@@ -185,6 +185,33 @@ class StringClass:
             j += 1
         return True
 
+    @staticmethod
+    def compress_string(string):
+        """
+
+        :param string:
+        :return:
+        """
+        str_list = []
+        current = string[0]
+        count = 0
+
+        str_list.append(current)
+        for c in string:
+            if c == current:
+                count += 1
+            else:
+                str_list.append(str(count))
+                current = c
+                count = 1
+                str_list.append(current)
+        str_list.append(str(count))
+
+        if len(str_list) > len(string):
+            return string
+        else:
+            return "".join(str_list)
+
 
 if __name__ == "__main__":
     s1 = "Hello"
@@ -213,3 +240,9 @@ if __name__ == "__main__":
 
     s10 = "beer"
     print("Is \"{}\" one edit away from \"{}\"?: {}".format(s7, s10, StringClass.is_one_edit_away(s7, s10)))
+
+    s11 = "aaaabbcccddddaa"
+    print("Compressed version of \"{}\": {} ".format(s11, StringClass.compress_string(s11)))
+
+    s12 = "abcdef"
+    print("Compressed version of \"{}\": {} ".format(s12, StringClass.compress_string(s12)))
