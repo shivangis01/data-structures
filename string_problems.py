@@ -123,6 +123,68 @@ class StringClass:
                 return False
         return True
 
+    @staticmethod
+    def is_one_edit_away(str1, str2):
+        """
+        Given two strings check if one is 1-edit away from the other
+
+        Time Complexity: -
+        Space Complexity: -
+
+        :param str1:
+        :param str2:
+        :return: boolean
+        """
+        if len(str1) == len(str2):
+            return StringClass.check_for_one_edit_replacement(str1, str2)
+        elif len(str1) - len(str2) == 1:
+            return StringClass.check_for_one_edit_insertion(str1, str2)
+        elif len(str2) - len(str1) == 1:
+            return StringClass.check_for_one_edit_insertion(str2, str1)
+        else:
+            return False
+
+    @staticmethod
+    def check_for_one_edit_replacement(s1, s2):
+        """
+        Checks if s1 is one character's replacement away from s2
+
+        Time Complexity: O(n), n is the length of both s1 & s2
+        Space Complexity:
+
+        :param s1:
+        :param s2:
+        :return: boolean
+        """
+        replacement_count = 0
+        for i, j in zip(s1, s2):
+            if i != j:
+                replacement_count += 1
+                if replacement_count > 1:
+                    return False
+        return True
+
+    @staticmethod
+    def check_for_one_edit_insertion(s1, s2):
+        """
+        Checks if s1 is one character's insertion away from s2
+
+        Time Complexity: O(n), n is the length of the shorter string
+
+        :param s1:
+        :param s2:
+        :return: boolean
+        """
+        j = 0
+        for i in range(len(s2)):
+            if s1[i] != s2[j]:
+                if i != j:
+                    return False
+                else:
+                    continue
+            j += 1
+        return True
+
 
 if __name__ == "__main__":
     s1 = "Hello"
@@ -141,3 +203,13 @@ if __name__ == "__main__":
 
     s6 = "kettleelttek"
     print("Does \"{}\" have a permutation with a palindrome? {}".format(s6, StringClass.check_if_permutation_palindrome(s6)))
+
+    s7 = "kaya"
+    s8 = "maya"
+    print("Is \"{}\" one edit away from \"{}\"?: {}".format(s7, s8, StringClass.is_one_edit_away(s7, s8)))
+
+    s9 = "kayak"
+    print("Is \"{}\" one edit away from \"{}\"?: {}".format(s7, s9, StringClass.is_one_edit_away(s7, s9)))
+
+    s10 = "beer"
+    print("Is \"{}\" one edit away from \"{}\"?: {}".format(s7, s10, StringClass.is_one_edit_away(s7, s10)))
