@@ -75,13 +75,17 @@ class StringClass:
     def replace_white_space(string, n):
         """
         Replace whitespaces in string with %20 (in-place)
+
+        Time Complexity: O(n)
+        Space Complexity: O(1)
+
         :param string:
         :param n: length of final string
         :return:
         """
-        count = n
+        count = len(string)
         string_array = list(string)
-        for i in range(len(string_array) - 1, 0, -1):
+        for i in range(n - 1, 0, -1):
             char = string_array[i]
             if char != " ":
                 count -= 1
@@ -93,6 +97,32 @@ class StringClass:
                 count -= 3
         return "".join(string_array)
 
+    @staticmethod
+    def check_if_permutation_palindrome(string):
+        """
+        Checks if a given method could have a permutation that is a palindrome
+
+        Time Complexity: O(n)
+        Space Complexity: O(1)
+
+        :param string:
+        :return: boolean
+        """
+        count_dict = {}
+        for char in list(string):
+            if char in count_dict:
+                count_dict[char] += 1  ## TODO: Instead of storing as number, we can store as a boolean value, where True represents even & False represents odd.
+                                        # TODO: Final value of count isn't actually used, we only check to see if it's odd/even
+            else:
+                count_dict[char] = 1
+        odd_count = 0
+        for k, v in count_dict.items():
+            if v % 2 != 0:
+                odd_count += 1
+            if odd_count > 1:
+                return False
+        return True
+
 
 if __name__ == "__main__":
     s1 = "Hello"
@@ -103,8 +133,11 @@ if __name__ == "__main__":
 
     s3 = "hello"
     s4 = "ohel"
-    print("Permutations? {}".format(StringClass.are_permutations(s3, s4)))
-    print("Permutations? {}".format(StringClass.are_permutations2(s3, s4)))
+    print("Is \"{}\" a permutation of \"{}\"? {}".format(s3, s4, StringClass.are_permutations(s3, s4)))
+    print("Is \"{}\" a permutation of \"{}\"? {}".format(s3, s4, StringClass.are_permutations2(s3, s4)))
 
-    s5 = "hello world"
-    print("Remove spaces: {}".format(StringClass.replace_white_space(s5, 11)))
+    s5 = "hello world  "
+    print("Convert spaces in \"{}\" to %20: {}".format(s5, StringClass.replace_white_space(s5, 11)))
+
+    s6 = "kettleelttek"
+    print("Does \"{}\" have a permutation with a palindrome? {}".format(s6, StringClass.check_if_permutation_palindrome(s6)))
