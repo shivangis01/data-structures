@@ -1,3 +1,7 @@
+from typing import List
+from pandas import *
+
+
 class StringClass:
 
     @staticmethod
@@ -213,6 +217,93 @@ class StringClass:
             return "".join(str_list)
 
 
+    @staticmethod
+    def _is_substring(s1, s2):
+        """
+        Checks if s1 is a substring of s2
+        :param s1:
+        :param s2:
+        :return: boolean
+        """
+        return s1 in s2
+
+    @staticmethod
+    def is_rotation(s1, s2):
+        """
+        Check if s1 can be rotated in a way to give s2
+
+        Time Complexity: O(n) - n is length of each string
+
+        :param s1:
+        :param s2:
+        :return: boolean
+        """
+        if len(s1) != len(s2):
+            return False
+        first_char = s2[0]
+        n = len(s1)
+        for i in range(n):
+            if s1[i] == first_char:
+                if StringClass._is_substring(s1[i:n-1], s2) and StringClass._is_substring(s1[0:i-1], s2):
+                    return True
+        return False
+
+    @staticmethod
+    def create_zero_matrix(matrix: List[List[int]]):
+        """
+        Given a MxN matrix, for any cell that contains '0', set all its rows & cols to zero
+
+        Time Complexity: O(2MN) ~ O(MN)
+        Space Complexity: O(M+N) ~ O(N)
+
+        :param matrix:
+        :return:
+        """
+        zero_rows = []
+        zero_cols = []
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                if matrix[i][j] == 0:
+                    zero_rows.append(i)
+                    zero_cols.append(j)
+        for i in range(len(matrix)):
+            for j in range(len(matrix)):
+                if i in zero_rows or j in zero_cols:
+                    matrix[i][j] = 0
+        return matrix
+
+    @staticmethod
+    def rotate_matrix(matrix: List[List[int]]):
+        """
+        Rotate an N x N matrix clockwise, in-place
+
+        Time Complexity: O(n^2)
+        Space Complexity: O(1)
+
+        :param matrix:
+        :return:
+        """
+        n = len(matrix)
+        for i in range(int(n/2)):
+            for j in range(i, n - 1 - i):
+
+                # top-left
+                temp = matrix[i][j]
+
+                # bottom-left -> top-left
+                matrix[i][j] = matrix[n - i - 1][j]
+
+                # bottom-right -> bottom-left
+                matrix[n - i - 1][j] = matrix[n - i - 1][n - j - 1]
+
+                # top-right -> bottom-right
+                matrix[n - i - 1][n - j - 1] = matrix[i][n - j - 1]
+
+                # top-left -> top-right
+                matrix[i][n - j - 1] = temp
+        return matrix
+
+
 if __name__ == "__main__":
     s1 = "Hello"
     print("Are string characters unique in {}? {}".format(s1, StringClass.all_unique_characters(s1)))
@@ -246,3 +337,21 @@ if __name__ == "__main__":
 
     s12 = "abcdef"
     print("Compressed version of \"{}\": {} ".format(s12, StringClass.compress_string(s12)))
+
+    s13 = "tomcat"
+    s14 = "cattom"
+    s15 = "attcom"
+    print("Is \"{}\" a rotation of \"{}\"?: {}".format(s14, s13, StringClass.is_rotation(s14, s13)))
+    print("Is \"{}\" a rotation of \"{}\"?: {}".format(s15, s13, StringClass.is_rotation(s15, s13)))
+
+    m1 = [[1,2,0], [4,5,6], [0,8,9]]
+    new_matrix = StringClass.create_zero_matrix(m1)
+    print("New matrix looks like:")
+    print(DataFrame(new_matrix))
+
+    m2 = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
+    print("Rotate Matrix:")
+    print(DataFrame(m2))
+    new_matrix = StringClass.rotate_matrix(m2)
+    print("New matrix looks like:")
+    print(DataFrame(new_matrix))
