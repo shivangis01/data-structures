@@ -285,22 +285,26 @@ class StringClass:
         """
         n = len(matrix)
         for i in range(int(n/2)):
-            for j in range(i, n - 1 - i):
+            first = i
+            last = n - i - 1
+            for j in range(i, last):
+                offset = j - i
 
                 # top-left
-                temp = matrix[i][j]
+                temp = matrix[first][j]
 
                 # bottom-left -> top-left
-                matrix[i][j] = matrix[n - i - 1][j]
+                matrix[first][j] = matrix[last - offset][first]
 
                 # bottom-right -> bottom-left
-                matrix[n - i - 1][j] = matrix[n - i - 1][n - j - 1]
+                matrix[last - offset][first] = matrix[last][last - offset]
 
                 # top-right -> bottom-right
-                matrix[n - i - 1][n - j - 1] = matrix[i][n - j - 1]
+                matrix[last][last - offset] = matrix[j][last]
 
                 # top-left -> top-right
-                matrix[i][n - j - 1] = temp
+                matrix[j][last] = temp
+
         return matrix
 
 
