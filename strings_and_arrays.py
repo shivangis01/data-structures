@@ -3,6 +3,9 @@ from pandas import *
 
 
 class StringClass:
+    """
+    Class with solutions to different string & array related problems
+    """
 
     @staticmethod
     def all_unique_characters(string):
