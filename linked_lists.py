@@ -40,6 +40,10 @@ class LinkedListClass:
     @staticmethod
     def remove_duplicates(head: Node):
         """
+        Remove nodes with duplicate values
+
+        Time Complexity: O(n)
+        Space Complexity: O(n) (Worst case)
 
         :param head: given linked list
         :return:
@@ -47,7 +51,7 @@ class LinkedListClass:
         if not head or not head.val:
             return
         value_set = set()
-        first = Node(None)
+        first = None
 
         while head is not None:
             if head.val not in value_set:
@@ -57,6 +61,31 @@ class LinkedListClass:
                 first.next = head.next
             head = head.next
         return first
+
+    @staticmethod
+    def remove_duplicates_no_buffer(head: Node):
+        """
+        Remove nodes with duplicate values, without using a buffer
+
+        Time Complexity: O(n^2)
+        Space Complexity: O(1)
+
+        :param head: given linked list
+        :return:
+        """
+        if not head or not head.val:
+            return
+
+        current = head
+        while current is not None:
+            runner = current
+            while runner.next is not None:
+                if runner.next.val != current.val:
+                    runner = runner.next
+                else:
+                    runner.next = runner.next.next
+            current = current.next
+        return current
 
 
 if __name__ == '__main__':
@@ -70,5 +99,16 @@ if __name__ == '__main__':
 
     LinkedListClass.print_linkedlist(n1)
 
+    print("Removing redundancies")
     LinkedListClass.remove_duplicates(n1)
     LinkedListClass.print_linkedlist(n1)
+
+    n2 = Node(5)
+    LinkedListClass.add_node(n2, 5)
+    LinkedListClass.add_node(n2, 6)
+    LinkedListClass.add_node(n2, 7)
+    LinkedListClass.add_node(n2, 8)
+    LinkedListClass.add_node(n2, 9)
+    print("Removing redundancies without using buffer")
+    LinkedListClass.remove_duplicates_no_buffer(n2)
+    LinkedListClass.print_linkedlist(n2)
