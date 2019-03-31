@@ -147,6 +147,21 @@ class LinkedListClass:
 
         return p1
 
+    @staticmethod
+    def delete_middle_node(head: Node):
+        """
+        Delete a middle node from a linked list given access to only that node
+
+        :param head:
+        :return:
+        """
+        if head is None or head.next is None:
+            return False
+        next_node = head.next
+        head.val = next_node.val
+        head.next = next_node.next
+        return True
+
 
 if __name__ == '__main__':
     print("Testing linked lists")
@@ -176,3 +191,6 @@ if __name__ == '__main__':
     k = 3
     LinkedListClass.kth_to_last_node_recursive(n2, k)
     print("{}th to last node is {}".format(k, LinkedListClass.kth_to_last_node_iterative(n2, k).val))
+
+    LinkedListClass.delete_middle_node(n2.next.next)
+    LinkedListClass.print_linkedlist(n2)
