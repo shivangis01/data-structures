@@ -87,6 +87,66 @@ class LinkedListClass:
             current = current.next
         return current
 
+    @staticmethod
+    def return_last_node(node, count):
+        """
+
+        :param node:
+        :param count:
+        :return:
+        """
+        if node is None:
+            return
+        while node.next is not None:
+            return LinkedListClass.return_last_node(node.next, count)
+
+    @staticmethod
+    def kth_to_last_node_recursive(head: Node, k: int):
+        """
+        Recursively look for the kth to last node of a given linked list
+
+        Time Complexity: O(n)
+        Space Complexity: O(n)
+
+        :param head: linked list head
+        :param k:
+        :return: Value of kth-to-last node
+        """
+        if head is None:
+            return 0
+        i = LinkedListClass.kth_to_last_node_recursive(head.next, k) + 1
+        if k == i:
+            print("The kth node is : {}".format(head.val))
+        return i
+
+    @staticmethod
+    def kth_to_last_node_iterative(head: Node, k: int) -> Node:
+        """
+        Iterates to look for the kth to last node of a given linked list, uses 2 pointers
+
+        Time Complexity: O(n)
+        Space Complexity: O(1)
+
+        :param head:
+        :param k:
+        :return:
+        """
+        p1 = head
+        p2 = head
+        count = 0
+
+        # Move p2 k nodes apart from p1
+        while count != k:
+            p2 = p2.next
+            count += 1
+
+        # Move both p1 & p2 until p2 reaches the end
+        while p2 is not None:
+            p2 = p2.next
+            p1 = p1.next
+
+        return p1
+
 
 if __name__ == '__main__':
     print("Testing linked lists")
@@ -112,3 +172,7 @@ if __name__ == '__main__':
     print("Removing redundancies without using buffer")
     LinkedListClass.remove_duplicates_no_buffer(n2)
     LinkedListClass.print_linkedlist(n2)
+
+    k = 3
+    LinkedListClass.kth_to_last_node_recursive(n2, k)
+    print("{}th to last node is {}".format(k, LinkedListClass.kth_to_last_node_iterative(n2, k).val))
