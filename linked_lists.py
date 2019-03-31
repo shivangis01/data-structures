@@ -162,6 +162,29 @@ class LinkedListClass:
         head.next = next_node.next
         return True
 
+    @staticmethod
+    def partition_linked_list(head: Node, partition: int):
+        l1 = Node(0)
+        l1_start = l1
+        l2 = Node(0)
+        l2_start = l2
+        while head is not None:
+            if head.val < partition:
+                l1.next = head
+                l1 = l1.next
+            else:
+                l2.next = head
+                l2 = l2.next
+            head = head.next
+        l1.next = None
+        l2.next = None
+
+        new_head = l1_start.next
+        while l1.next is not None:
+            l1 = l1.next
+        l1.next = l2_start.next
+        return new_head
+
 
 if __name__ == '__main__':
     print("Testing linked lists")
@@ -194,3 +217,14 @@ if __name__ == '__main__':
 
     LinkedListClass.delete_middle_node(n2.next.next)
     LinkedListClass.print_linkedlist(n2)
+
+    n3 = Node(10)
+    LinkedListClass.add_node(n3, 5)
+    LinkedListClass.add_node(n3, 2)
+    LinkedListClass.add_node(n3, 7)
+    LinkedListClass.add_node(n3, 1)
+    LinkedListClass.add_node(n3, 9)
+    LinkedListClass.print_linkedlist(n3)
+    new = LinkedListClass.partition_linked_list(n3, 5)
+    print("Partitioning linked list around the value {}".format(5))
+    LinkedListClass.print_linkedlist(new)
