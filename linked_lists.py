@@ -185,6 +185,41 @@ class LinkedListClass:
         l1.next = l2_start.next
         return new_head
 
+    @staticmethod
+    def sum_linked_lists(h1: Node, h2: Node):
+        """
+        Assuming digits are stored in reverse order (617 is 6 -> 1 -> 7), calculate sum of all digits
+        :param h1:
+        :param h2:
+        :return:
+        """
+        if h1 is None or (h1.val and h1.next is None):
+            return h2
+        if h2 is None or (h2.val and h2.next is None):
+            return h1
+
+        sum_list = Node(0)
+        sum_list_head = sum_list
+        carry = 0
+        while h1 is not None and h2 is not None:
+            sum_value = int((h1.val + h2.val + carry) % 10)
+            carry = int((h1.val + h2.val + carry) / 10)
+            sum_list.next = Node(sum_value)
+            h1 = h1.next
+            h2 = h2.next
+            sum_list = sum_list.next
+
+        if h1 is None:
+            sum_list.next = h2
+
+        if h2 is None:
+            sum_list.next = h1
+
+        if carry:
+            sum_list.next = Node(carry)
+
+        return sum_list_head.next
+
 
 if __name__ == '__main__':
     print("Testing linked lists")
@@ -228,3 +263,19 @@ if __name__ == '__main__':
     new = LinkedListClass.partition_linked_list(n3, 5)
     print("Partitioning linked list around the value {}".format(5))
     LinkedListClass.print_linkedlist(new)
+
+    h1 = Node(1)
+    LinkedListClass.add_node(h1, 5)
+    LinkedListClass.add_node(h1, 6)
+    print("h1:")
+    LinkedListClass.print_linkedlist(h1)
+
+    h2 = Node(4)
+    LinkedListClass.add_node(h2, 5)
+    LinkedListClass.add_node(h2, 6)
+    print("h2:")
+    LinkedListClass.print_linkedlist(h2)
+
+    sum = LinkedListClass.sum_linked_lists(h1, h2)
+    print("Sum of two lists is:")
+    LinkedListClass.print_linkedlist(sum)
