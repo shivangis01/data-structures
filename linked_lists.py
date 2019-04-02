@@ -201,19 +201,16 @@ class LinkedListClass:
         sum_list = Node(0)
         sum_list_head = sum_list
         carry = 0
-        while h1 is not None and h2 is not None:
-            sum_value = int((h1.val + h2.val + carry) % 10)
-            carry = int((h1.val + h2.val + carry) / 10)
+        while h1 is not None or h2 is not None:
+            n1 = h1.val if h1 is not None else 0
+            n2 = h2.val if h2 is not None else 0
+
+            sum_value = int((n1 + n2 + carry) % 10)
+            carry = int((n1 + n2 + carry) / 10)
             sum_list.next = Node(sum_value)
-            h1 = h1.next
-            h2 = h2.next
+            h1 = h1.next if h1 is not None else h1
+            h2 = h2.next if h2 is not None else h2
             sum_list = sum_list.next
-
-        if h1 is None:
-            sum_list.next = h2
-
-        if h2 is None:
-            sum_list.next = h1
 
         if carry:
             sum_list.next = Node(carry)
@@ -265,14 +262,15 @@ if __name__ == '__main__':
     LinkedListClass.print_linkedlist(new)
 
     h1 = Node(1)
-    LinkedListClass.add_node(h1, 5)
+    LinkedListClass.add_node(h1, 2)
     LinkedListClass.add_node(h1, 6)
     print("h1:")
     LinkedListClass.print_linkedlist(h1)
 
     h2 = Node(4)
     LinkedListClass.add_node(h2, 5)
-    LinkedListClass.add_node(h2, 6)
+    LinkedListClass.add_node(h2, 3)
+    LinkedListClass.add_node(h2, 7)
     print("h2:")
     LinkedListClass.print_linkedlist(h2)
 
