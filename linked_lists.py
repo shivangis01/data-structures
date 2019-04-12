@@ -186,7 +186,7 @@ class LinkedListClass:
         return new_head
 
     @staticmethod
-    def sum_linked_lists(h1: Node, h2: Node):
+    def sum_linked_lists_reverse(h1: Node, h2: Node):
         """
         Assuming digits are stored in reverse order (617 is 6 -> 1 -> 7), calculate sum of all digits
         :param h1:
@@ -216,6 +216,32 @@ class LinkedListClass:
             sum_list.next = Node(carry)
 
         return sum_list_head.next
+
+    @staticmethod
+    def sum_linked_lists_forward(h1: Node, h2: Node, sum_list: Node=None):
+        """
+        Assuming digits are stored in forward order (617 is 6 -> 1 -> 7), calculate sum of all digits
+        :param h1:
+        :param h2:
+        :param sum_list:
+        :return:
+        """
+        ## TODO: Work in progress
+        if h1.next is None or h2.next is None:
+            carry = 0
+            n1 = h1.val if h1 is not None else 0
+            n2 = h2.val if h2 is not None else 0
+
+            sum_value = int((n1 + n2 + carry) % 10)
+            carry = int((n1 + n2 + carry) / 10)
+
+            sum_list.next = Node(sum_value)
+            sum_list = sum_list.next
+
+            return carry
+        else:
+            carry = LinkedListClass.sum_linked_lists_forward(h1.next, h2.next, sum_list)
+
 
 
 if __name__ == '__main__':
@@ -274,6 +300,6 @@ if __name__ == '__main__':
     print("h2:")
     LinkedListClass.print_linkedlist(h2)
 
-    sum = LinkedListClass.sum_linked_lists(h1, h2)
+    sum = LinkedListClass.sum_linked_lists_reverse(h1, h2)
     print("Sum of two lists is:")
     LinkedListClass.print_linkedlist(sum)
